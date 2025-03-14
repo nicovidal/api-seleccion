@@ -23,6 +23,19 @@ export class ObtencionDataService {
     }
   }
 
+  async obtenerDeudaCliente(rut:string){
+    try {
+      
+      const response=await axios.get(`${this.API_BASE}?rut=${rut}`);
+      console.log('Deuda cliente obtenida')
+      return response.data
+
+    } catch (error) {
+      throw new HttpException('Error obteniendo deuda del cliente', HttpStatus.BAD_GATEWAY);
+
+    }
+  }
+
   findAll() {
     return `This action returns all obtencionData`;
   }

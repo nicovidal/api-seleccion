@@ -14,9 +14,16 @@ export class ObtencionDataController {
  */
 
   @Get('/buscarCliente')
-  findAll(@Query('rut') rut: string) {
+  clienteRut(@Query('rut') rut: string) {
     return this.obtencionDataService.obtenerDatosCliente(rut);
   }
+
+  
+  @Get('/buscarDeuda')
+  deudaRut(@Query('rut') rut: string) {
+    return this.obtencionDataService.obtenerDeudaCliente(rut);
+  }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {
