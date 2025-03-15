@@ -49,10 +49,10 @@ export class ObtencionDataService {
 
   }
 
-  async obtenerScoreCliente(rut:String){
+  async obtenerScoreCliente(rut: String) {
 
     try {
-      
+
       const response = await axios.get(`${this.API_BASE}?rut=${rut}`);
       console.log('Tipo de score obtenido')
       return response.data

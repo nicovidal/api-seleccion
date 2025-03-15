@@ -12,6 +12,16 @@ export class ObtencionDataController {
     return this.obtencionDataService.create(createObtencionDatumDto);
   }
  */
+/*   
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateObtencionDatumDto: UpdateObtencionDatumDto) {
+    return this.obtencionDataService.update(+id, updateObtencionDatumDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.obtencionDataService.remove(+id);
+  } */
 
   @Get('/buscarCliente')
   clienteRut(@Query('rut') rut: string) {
@@ -35,13 +45,6 @@ export class ObtencionDataController {
     return this.obtencionDataService.obtenerScoreCliente(rut);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateObtencionDatumDto: UpdateObtencionDatumDto) {
-    return this.obtencionDataService.update(+id, updateObtencionDatumDto);
-  }
+  
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.obtencionDataService.remove(+id);
-  }
 }
