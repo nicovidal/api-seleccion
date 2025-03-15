@@ -25,9 +25,14 @@ export class ObtencionDataController {
   }
 
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.obtencionDataService.findOne(+id);
+  @Get('/buscarTipo')
+  tipoRut(@Query('rut') rut: string) {
+    return this.obtencionDataService.obtenerTipoCliente(rut);
+  }
+
+  @Get('/buscarScore')
+  scoreRut(@Query('rut') rut: string) {
+    return this.obtencionDataService.obtenerScoreCliente(rut);
   }
 
   @Patch(':id')

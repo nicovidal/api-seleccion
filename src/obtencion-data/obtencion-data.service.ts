@@ -9,7 +9,7 @@ export class ObtencionDataService {
 
   private readonly API_BASE = 'http://localhost:8080/api/data/personaRut';
 
-  constructor(private readonly httpService:HttpService){}
+  constructor(private readonly httpService: HttpService) { }
 
 
   async obtenerDatosCliente(rut: string) {
@@ -23,10 +23,10 @@ export class ObtencionDataService {
     }
   }
 
-  async obtenerDeudaCliente(rut:string){
+  async obtenerDeudaCliente(rut: string) {
     try {
-      
-      const response=await axios.get(`${this.API_BASE}?rut=${rut}`);
+
+      const response = await axios.get(`${this.API_BASE}?rut=${rut}`);
       console.log('Deuda cliente obtenida')
       return response.data
 
@@ -36,8 +36,30 @@ export class ObtencionDataService {
     }
   }
 
-  findAll() {
-    return `This action returns all obtencionData`;
+  async obtenerTipoCliente(rut: string) {
+
+    try {
+      const response = await axios.get(`${this.API_BASE}?rut=${rut}`);
+      console.log('Tipo de cliente obtenido')
+      return response.data
+    } catch (error) {
+      throw new HttpException('Error obteniendo tipo del cliente', HttpStatus.BAD_GATEWAY);
+
+    }
+
+  }
+
+  async obtenerScoreCliente(rut:String){
+
+    try {
+      
+      const response = await axios.get(`${this.API_BASE}?rut=${rut}`);
+      console.log('Tipo de score obtenido')
+      return response.data
+    } catch (error) {
+      throw new HttpException('Error obteniendo score del cliente', HttpStatus.BAD_GATEWAY);
+
+    }
   }
 
   findOne(id: number) {
