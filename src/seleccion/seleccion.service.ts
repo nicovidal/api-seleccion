@@ -22,6 +22,9 @@ export class SeleccionService {
 
     this.seleccionCliente(rut)
 
+    const datosCliente=await this.seleccionCliente(rut);
+
+    seleccionFinalResponse.cliente.nombre=datosCliente;
 
     const deudaCliente = await this.seleccionDeuda(rut)
 
@@ -30,6 +33,8 @@ export class SeleccionService {
     }
 
     seleccionFinalResponse.deuda='No tiene deuda'
+
+    
 
     return seleccionFinalResponse;
   }
