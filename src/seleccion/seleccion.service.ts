@@ -22,10 +22,15 @@ export class SeleccionService {
 
     this.seleccionCliente(rut)
 
+    //1-Inicio consulta de datos cliente
     const datosCliente=await this.seleccionCliente(rut);
 
     seleccionFinalResponse.cliente.nombre=datosCliente;
 
+
+
+
+    //2-Inicio consulta deuda cliente
     const deudaCliente = await this.seleccionDeuda(rut)
 
     if (deudaCliente) {
@@ -34,7 +39,10 @@ export class SeleccionService {
 
     seleccionFinalResponse.deuda='No tiene deuda'
 
-    
+    //3-Inicio consulta tipo de cliente
+    const tipoCliente=await this.seleccionTipo(rut)
+
+
 
     return seleccionFinalResponse;
   }
@@ -61,7 +69,19 @@ export class SeleccionService {
     }
   }
 
+  async seleccionTipo(rut:string){
 
+    try {
+
+      const clienteTipoDatos=await this.obtencionDataService.obtenerTipoCliente(rut);
+      console.log('Tipo de cliente obtenido',clienteTipoDatos)
+
+      return clienteTipoDatos
+    } catch (error) {
+      throw new Error('Error al obtener tipo datos del cliente');
+
+    }
+  }
 
 
 
