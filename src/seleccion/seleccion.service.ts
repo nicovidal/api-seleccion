@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ObtencionDataService } from 'src/obtencion-data/obtencion-data.service';
-import { SeleccionFinalResponse } from '../interfaces/seleccion-final-response.interaface';
-import { Deuda, DeudaCliente, TablaRangos } from 'src/interfaces/interfaces';
+import { DatosCliente, Deuda, DeudaCliente, TablaRangos } from 'src/interfaces/interfaces';
+import { SeleccionFinalResponse } from 'src/interfaces/seleccion-final-response.interaface';
 
 
 @Injectable()
@@ -14,52 +14,71 @@ export class SeleccionService {
       deuda: '',
       mensaje: '',
       tipoCliente: '',
-      elegible: false
+      elegible: true 
     };
-
+  
     // Obtener tabla de rangos
     const tablaRangos = await this.seleccionTabla();
-
-    // Obtener datos del cliente
-    const datosCliente = await this.seleccionCliente(rut);
-    seleccionFinalResponse.cliente = { nombre: datosCliente };
-
+    const montoDeuda = tablaRangos.maximoDeuda;
+    console.log('Monto de deuda:', montoDeuda);
+  
+    // Obtener deudas del cliente
     const deudasClientes: DeudaCliente[] = await this.seleccionDeuda(rut);
-
     console.log(JSON.stringify(deudasClientes));
-
+  
     let totalDeuda = 0;
-
-    // Recorrer cada cliente en deudasClientes
+  
     deudasClientes.forEach(cliente => {
-      
       cliente.deuda.forEach(deuda => {
-        totalDeuda += Number(deuda.monto) || 0; 
+        totalDeuda += Number(deuda.monto) || 0;
       });
     });
-
-    console.log(`Total deuda del cliente: ${totalDeuda}`);
-
-    if (totalDeuda >= tablaRangos.maximoDeuda) {
   
+    console.log(`Total deuda del cliente: ${totalDeuda}`);
+  
+    // Validar deuda
+    if (totalDeuda >= montoDeuda) {
+      seleccionFinalResponse.deuda = 'Tiene deuda';
+      seleccionFinalResponse.mensaje = 'Rechazado por deuda';
+      seleccionFinalResponse.elegible = false; 
       console.log('Cliente con deuda muy alta, no es seleccionado');
-    }
-
-
-
-
+      return seleccionFinalResponse; 
+    } 
+  
     seleccionFinalResponse.deuda = 'No tiene deuda';
-
-
+  
     // 3. Consulta tipo de cliente
     const tipoCliente = await this.seleccionTipo(rut);
-
-    seleccionFinalResponse.tipoCliente = 'pasa las politicas de tipo'
-
-
-
+    const isPolitico = tablaRangos.politico;
+    const isDelincuente = tablaRangos.delincuente;
+    console.log(isPolitico);
+  
+    //politico
+    if (tipoCliente.politico === isPolitico) {
+      seleccionFinalResponse.mensaje = 'Rechazado no se permiten políticos';
+      seleccionFinalResponse.elegible = false;
+      console.log('Cliente no es elegible por tipo');
+      return seleccionFinalResponse; 
+    }
+  
+    //delincuente
+    if (tipoCliente.delincuente === isDelincuente) {
+      seleccionFinalResponse.mensaje = 'Rechazado por ser delincuente';
+      seleccionFinalResponse.elegible = false;
+      console.log('Cliente no es elegible por tipo (delincuente)');
+      return seleccionFinalResponse; 
+    }
+  
+    const datosCliente: DatosCliente = await this.seleccionCliente(rut);
+    seleccionFinalResponse.cliente = { ...datosCliente };
+  
+    // Aquí podrías agregar más validaciones que también puedan cambiar `elegible` a false
+  
+    seleccionFinalResponse.tipoCliente = 'Pasa las políticas de tipo'; 
+  
     return seleccionFinalResponse;
   }
+  
 
   async seleccionCliente(rut: string) {
     try {
@@ -73,15 +92,13 @@ export class SeleccionService {
 
   async seleccionDeuda(rut: string): Promise<DeudaCliente[]> {
     try {
-      // Llamada al servicio para obtener la deuda
       const clienteDatos = await this.obtencionDataService.obtenerDeudaCliente(rut);
 
-      // Verifica si la propiedad 'deuda' es un arreglo
       if (clienteDatos && Array.isArray(clienteDatos.deuda)) {
-        // Aquí es donde puedes obtener el 'rut' de clienteDatos si está presente
+      
         return [{
-          rut: clienteDatos.rut,  // Esto debería funcionar si rut está presente
-          deuda: clienteDatos.deuda  // La propiedad deuda es el arreglo de deudas
+          rut: clienteDatos.rut,  
+          deuda: clienteDatos.deuda  
         }];
       } else {
         throw new Error('La propiedad deuda no es un arreglo válido');

@@ -1,5 +1,5 @@
 export interface SeleccionFinalResponse {
-    cliente?: { nombre?: string };
+    cliente?: {};
     deuda?: string;
     mensaje?: string;
     tipoCliente?:string;

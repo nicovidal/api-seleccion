@@ -1,21 +1,19 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
-import { Deuda, DeudaCliente, TablaRangos } from 'src/interfaces/interfaces';
+import { DatosCliente, DeudaCliente, Score, TablaRangos, TipoPersona } from 'src/interfaces/interfaces';
 
 @Injectable()
 export class ObtencionDataService {
   private readonly API_BASE: string;
 
   constructor(
-    private readonly httpService: HttpService,
     private readonly configService: ConfigService
   ) {
     this.API_BASE = this.configService.get<string>('MS-OBTENCION-DATA');
   }
 
-  async obtenerDatosCliente(rut: string) {
+  async obtenerDatosCliente(rut: string): Promise<DatosCliente>  {
     try {
       const response = await axios.get(`${this.API_BASE}/personaRut?rut=${rut}`);
       console.log('Cliente encontrado');
@@ -41,7 +39,7 @@ export class ObtencionDataService {
     }
   }
   
-  async obtenerTipoCliente(rut: string) {
+  async obtenerTipoCliente(rut: string):Promise <TipoPersona>{
     try {
       const response = await axios.get(`${this.API_BASE}/tipoRut?rut=${rut}`);
       console.log('Tipo de cliente obtenido');
@@ -51,7 +49,7 @@ export class ObtencionDataService {
     }
   }
 
-  async obtenerScoreCliente(rut: string) {
+  async obtenerScoreCliente(rut: string):Promise <Score>{
     try {
       const response = await axios.get(`${this.API_BASE}/scoreRut?rut=${rut}`);
       console.log('Score del cliente obtenido');
