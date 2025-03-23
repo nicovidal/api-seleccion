@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ObtencionDataService } from 'src/obtencion-data/obtencion-data.service';
-import { DatosCliente, Deuda, DeudaCliente, TablaRangos } from 'src/interfaces/interfaces';
+import { DatosCliente, Deuda, DeudaCliente, Score, TablaRangos } from 'src/interfaces/interfaces';
 import { SeleccionFinalResponse } from 'src/interfaces/seleccion-final-response.interaface';
 
 
@@ -68,11 +68,22 @@ export class SeleccionService {
       console.log('Cliente no es elegible por tipo (delincuente)');
       return seleccionFinalResponse; 
     }
-  
+
+    //4- Validacion score
+    const scoreCliente=await this.seleccionScore(rut);
+
+  if(scoreCliente.score <= tablaRangos.scoreMaximo){
+    seleccionFinalResponse.mensaje='No cumple rango de score bancario'
+    seleccionFinalResponse.elegible=false
+    console.log('Cliente no cumple con score elegible');
+    return seleccionFinalResponse
+  }
+
     const datosCliente: DatosCliente = await this.seleccionCliente(rut);
     seleccionFinalResponse.cliente = { ...datosCliente };
   
     // Aquí podrías agregar más validaciones que también puedan cambiar `elegible` a false
+    seleccionFinalResponse.mensaje='Cliente aprueba elegibilidad'
   
     seleccionFinalResponse.tipoCliente = 'Pasa las políticas de tipo'; 
   
@@ -132,6 +143,17 @@ export class SeleccionService {
       throw new Error('Error al obtener tipo de cliente');
 
 
+    }
+  }
+
+  async seleccionScore(rut:string):Promise <Score>{
+    try {
+      
+      const clienteScore=await this.obtencionDataService
+      console.log('Obtener score de cliente con exito')
+      return 
+    } catch (error) {
+      throw new Error('Error al obtener score de cliente')
     }
   }
 }
