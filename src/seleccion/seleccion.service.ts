@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ObtencionDataService } from 'src/obtencion-data/obtencion-data.service';
-import { DatosCliente, Deuda, DeudaCliente, Score, TablaRangos } from 'src/interfaces/interfaces';
+import { DatosCliente,  DeudaCliente, Score, TablaRangos } from 'src/interfaces/interfaces';
 import { SeleccionFinalResponse } from 'src/interfaces/seleccion-final-response.interaface';
 
 
@@ -79,6 +79,7 @@ export class SeleccionService {
     return seleccionFinalResponse
   }
 
+   //5-Obtencion de datos
     const datosCliente: DatosCliente = await this.seleccionCliente(rut);
     seleccionFinalResponse.cliente = { ...datosCliente };
   

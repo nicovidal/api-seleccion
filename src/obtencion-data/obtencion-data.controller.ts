@@ -1,7 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ObtencionDataService } from './obtencion-data.service';
-import { CreateObtencionDatumDto } from './dto/create-obtencion-datum.dto';
-import { UpdateObtencionDatumDto } from './dto/update-obtencion-datum.dto';
 
 @Controller('obtencion-data')
 export class ObtencionDataController {

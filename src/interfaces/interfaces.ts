@@ -4,6 +4,12 @@ export interface CotizacionesCliente{
 
 }
 
+export interface Cotizaciones {
+  mes: string;
+  remuneracionImponible: string;
+  afp: string;
+}
+
 export interface DatosCliente{
   rut?:string;
   nombreCompleto?:string;
@@ -12,11 +18,7 @@ export interface DatosCliente{
   nombres?:string;
 }
 
-export interface Cotizaciones {
-  mes: string;
-  remuneracionImponible: string;
-  afp: string;
-}
+
 
 export interface Score{
 

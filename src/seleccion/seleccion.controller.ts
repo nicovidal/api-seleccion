@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { SeleccionService } from './seleccion.service';
 @Controller('seleccion')
 export class SeleccionController {
