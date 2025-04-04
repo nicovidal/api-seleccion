@@ -150,9 +150,9 @@ export class SeleccionService {
   async seleccionScore(rut:string):Promise <Score>{
     try {
       
-      const clienteScore=await this.obtencionDataService
+      const clienteScore=await this.obtencionDataService.obtenerScoreCliente(rut)
       console.log('Obtener score de cliente con exito')
-      return 
+      return clienteScore;
     } catch (error) {
       throw new Error('Error al obtener score de cliente')
     }
