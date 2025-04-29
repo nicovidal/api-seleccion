@@ -15,29 +15,29 @@ export class ObtencionDataService {
 
   async obtenerCotizacionesCliente(rut: string): Promise<CotizacionesCliente> {
     try {
-        console.log(`[INFO] Solicitando cotizaciones para RUT: ${rut}`);
+      console.log(`[INFO] Solicitando cotizaciones para RUT: ${rut}`);
 
-        const response = await axios.get(`${this.API_BASE}/cotizacionesRut?rut=${rut}`);
-        console.log(`[INFO] Respuesta de la API recibida:`, response.data);
+      const response = await axios.get(`${this.API_BASE}/cotizacionesRut?rut=${rut}`);
+      console.log(`[INFO] Respuesta de la API recibida:`, response.data);
 
-        const cotizacionesCliente = response.data;
+      const cotizacionesCliente = response.data;
 
-        if (cotizacionesCliente?.ok === false) {
-            console.warn(`[WARNING] Cliente ${rut} no tiene cotizaciones.`);
-            return { rut, cotizaciones: [] };
-        }
+      if (cotizacionesCliente?.ok === false) {
+        console.warn(`[WARNING] Cliente ${rut} no tiene cotizaciones.`);
+        return { rut, cotizaciones: [] };
+      }
 
-        return {
-            rut: cotizacionesCliente.rut ?? rut,
-            cotizaciones: cotizacionesCliente.cotizaciones ?? []
-        };
+      return {
+        rut: cotizacionesCliente.rut ?? rut,
+        cotizaciones: cotizacionesCliente.cotizaciones ?? []
+      };
 
     } catch (error) {
-        console.error(`[ERROR] Fallo al obtener cotizaciones para RUT ${rut}:`, error.message);
+      console.error(`[ERROR] Fallo al obtener cotizaciones para RUT ${rut}:`, error.message);
 
-        throw new HttpException(`Error obteniendo cotizaciones del cliente: ${error.message}`, HttpStatus.BAD_GATEWAY);
+      throw new HttpException(`Error obteniendo cotizaciones del cliente: ${error.message}`, HttpStatus.BAD_GATEWAY);
     }
-}
+  }
 
 
   async obtenerDatosCliente(rut: string): Promise<DatosCliente> {
@@ -97,6 +97,17 @@ export class ObtencionDataService {
     } catch (error) {
       throw new HttpException('Error obteniendo tabla rangos', HttpStatus.BAD_GATEWAY);
 
+    }
+  }
+
+  async obtenerOfertasCliente(rut: string) {
+    try {
+
+      const response = await axios.get(`${this.API_BASE}/ofertaRut?rut=${rut}`)
+
+      return response.data;
+    } catch (error) {
+      throw new HttpException('Error obteniendo oferta', HttpStatus.BAD_GATEWAY);
     }
   }
 

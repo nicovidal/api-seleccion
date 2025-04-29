@@ -4,5 +4,6 @@ export interface SeleccionFinalResponse {
     mensaje?: string;
     tipoCliente?:string;
     elegible?: boolean;
+    oferta?:{};
   }
   
