@@ -112,4 +112,15 @@ export class ObtencionDataService {
   }
 
 
+  async guardarNuevoCliente(clienteData) {
+    try {
+      const response = await axios.post(`${this.API_BASE}/crearCliente`, clienteData);
+      return response.data;
+    } catch (error) {
+      throw new HttpException('Error guardando cliente', HttpStatus.BAD_GATEWAY);
+    }
+  }
+
+
+
 }
