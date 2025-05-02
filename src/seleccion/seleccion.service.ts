@@ -171,6 +171,8 @@ export class SeleccionService {
 
       const clienteOferta = await this.obtencionDataService.obtenerOfertasCliente(rut);
       console.log('Obtener oferta de cliente con existo  ')
+
+      return clienteOferta
     } catch (error) {
       throw new Error('Error al obtener oferta de cliente')
     }

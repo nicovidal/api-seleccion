@@ -51,6 +51,7 @@ export class EvaluacionService {
     clienteEvaluado.datosEvaluacion.lagunasAfp12Meses = lagunas12;
     clienteEvaluado.datosEvaluacion.lagunasAfp6Meses = lagunas6;
 
+
     return await this.evaluarCliente(clienteEvaluado);
   }
 
@@ -94,5 +95,19 @@ export class EvaluacionService {
       fecha.setMonth(fecha.getMonth() - 1); 
     }
     return meses;
+  }
+
+
+
+  async guardarNuevoCliente(clienteEvaluadoAprobado){
+
+    try {
+      const response= this.obtencionDataService.guardarNuevoCliente(clienteEvaluadoAprobado);
+
+      return response
+    } catch (error) {
+      throw new Error('Error al guardar cliente')
+    }
+
   }
 }
