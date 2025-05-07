@@ -43,6 +43,10 @@ export class ObtencionDataController {
     return this.obtencionDataService.obtenerScoreCliente(rut);
   }
 
+  @Get('/buscarOfertas')
+  ofertaRut(@Query('rut')rut:string){
+    return this.obtencionDataService.obtenerOfertasCliente(rut);
+  }
   
   
 
